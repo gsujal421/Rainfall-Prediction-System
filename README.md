@@ -1,40 +1,44 @@
-🌧️ Rainfall Prediction System
-This project delivers a robust, production-ready machine learning pipeline for binary classification (Rain/No Rain) using a highly optimized Random Forest model deployed via Streamlit. The key focus of this project was to overcome common real-world challenges—specifically data imbalance and model miscalibration—to ensure the application provides accurate, trustworthy probability predictions.
-
-🚀 Solution Highlights
-1. Robust Model Training
-Data Handling: Addressed significant class imbalance through Downsampling the majority class, ensuring the model learned to recognize both Rain and No Rain events equally.
-
-Optimization Metric: Model selection and hyperparameter tuning were driven by the F1-Weighted Score rather than misleading accuracy, ensuring balanced performance across classes.
-
-2. Bias Correction via Calibration (The Core Fix)
-The raw Random Forest model suffered from probability skew (predicting a 72% chance of rain on a dry day).
-
-This was corrected using Isotonic Calibration (CalibratedClassifierCV) to adjust the model's confidence scores, making the output probabilities truly honest and reliable.
-
-3. Deployment Integrity
-The final decision boundary is set at a mathematically derived Optimal Threshold (0.667), which is necessary to maximize the F1-Score and prevent prediction errors that a standard 0.50 threshold would introduce.
-
-All user inputs are correctly Scaled using the saved scaler.pkl before prediction, preventing data format mismatches.
-
-💻 Project Structure
-The repository contains the three essential components for this ML application:
-
-notebook.ipynb: Contains the full data preprocessing pipeline, EDA, Downsampling, Hyperparameter Tuning, and the critical Model Calibration step. This notebook generates all artifacts.
-
-app.py: The Streamlit application that handles the web UI, loads the calibrated artifacts, scales user input, and applies the custom threshold logic.
-
-Deployment Artifacts (*.pkl, .txt):
-
-best_model_calibrated.pkl
-
-scaler.pkl
-
-optimal_threshold.txt (Contains the value: 0.667)
-
-⚙️ Future Plans
-The project is structured for easy deployment and scaling:
-
-Dockerization: The next step is to containerize the Streamlit application using Docker for consistent, platform-independent deployment.
-
-Data Retraining: Implement a scheduled pipeline to periodically retrain the model with fresh data to account for seasonal and climate shifts.
+<p>🌧 Rainfall Prediction System</p>
+<p>An interactive Streamlit web application that predicts the probability of rainfall for the next day using key meteorological parameters such as pressure, humidity, dewpoint, cloud cover, sunshine duration, wind direction, and wind speed.</p>
+<p>This project combines machine learning with a visually appealing interface and is designed for future deployment through Docker.</p>
+<p>🚀 Features</p>
+<p>🧠 Machine Learning-Powered Prediction – Uses a calibrated model to deliver accurate rainfall forecasts.</p>
+<p>🎨 Elegant Streamlit Interface – Includes background imagery and transparent overlays for a polished UI.</p>
+<p>⚙️ Optimized Threshold – Employs a fine-tuned decision threshold for balanced accuracy.</p>
+<p>💾 Pre-Trained Model Integration – Directly loads serialized model and scaler objects.</p>
+<p>🐳 Docker-Ready Design – Easily deployable in a containerized environment.</p>
+<p>Tech Stack
+| Category         | Tool             |
+| ---------------- | ---------------- |
+| Frontend         | Streamlit        |
+| ML Framework     | Scikit-learn     |
+| Language         | Python           |
+| Containerization | Docker (planned) |
+| Data Handling    | NumPy, Joblib    |</p>
+<p>🧩 Project Structure
+Rainfall_Prediction_System/
+│
+├── app.py                      # Main Streamlit application
+├── notebook.ipynb              # Model training and experimentation
+├── best_model_calibrated.pkl   # Trained ML model
+├── scaler.pkl                  # Data scaler for normalization
+├── optimal_threshold.txt       # Tuned probability threshold
+├── background.jpg              # Streamlit background image
+├── requirements.txt            # Python dependencies
+├── Dockerfile                  # (For future Docker deployment)
+└── README.md                   # Project documentation</p>
+<p>🌦 How It Works</p>
+<p>The app loads the scaler, calibrated ML model, and optimal threshold.</p>
+<p>Users input seven key weather features.</p>
+<p>The data is standardized and fed into the model.</p>
+<p>The app outputs:</p>
+<p>🌧️ “Rain expected tomorrow” — if probability ≥ threshold</p>
+<p>☀️ “No rain tomorrow” — otherwise</p>
+<p>📈 Machine Learning Overview</p>
+<p>The model was trained and optimized using:</p>
+<p>Data preprocessing and feature scaling</p>
+<p>Model calibration for probability accuracy</p>
+<p>Threshold tuning for F1-score optimization.</p>
+<p>👨‍💻 Developer</p>
+<p>Developed by: Sujal Gupta</p>
+<p>Optimized for both local and future Dockerized deployment.</p>
