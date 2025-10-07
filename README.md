@@ -28,22 +28,6 @@ This project combines machine learning with a visually appealing interface and i
 
 ---
 
-## 🧩 Project Structure
-
-Rainfall_Prediction_System/
-│
-├── app.py # Main Streamlit application
-├── notebook.ipynb # Model training and experimentation
-├── best_model_calibrated.pkl # Trained ML model
-├── scaler.pkl # Data scaler for normalization
-├── optimal_threshold.txt # Tuned probability threshold
-├── background.jpg # Streamlit background image
-├── requirements.txt # Python dependencies
-├── Dockerfile # (For future Docker deployment)
-└── README.md # Project documentation
-
----
-
 ## How It Works
 
 The app loads the scaler, calibrated ML model, and optimal threshold.
