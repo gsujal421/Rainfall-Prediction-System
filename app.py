@@ -123,4 +123,4 @@ if button:
 
 st.divider()
 st.write("Developed by Sujal Gupta ")
-st.write("[GitHub](https://github.com/sujal-karki)")
+st.write("[GitHub](https://github.com/gsujal421/Rainfall-Prediction-System)")
