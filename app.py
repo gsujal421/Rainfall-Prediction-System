@@ -78,15 +78,12 @@ except Exception:
     CUSTOM_THRESHOLD = 0.667
 
 st.title("Rainfall Prediction System 🌧")
-st.divider()
 
 st.subheader("Rainfall Prediction System Overview")
 st.write("This application provides a highly reliable forecast for the likelihood of rain tomorrow, " \
 "based on seven key meteorological inputs (Pressure, Humidity, Wind Speed, etc.).")
-st.divider()
 
 st.header("Input Weather Parameters")
-st.divider()
 
 col1,col2=st.columns(2)
 
@@ -104,7 +101,6 @@ with col2:
     windspeed= st.number_input("Enter the wind speed (m/s):",min_value=1.0,max_value=80.0,value=20.0)
 
 
-st.divider()
 
 button=st.button('Predict')
 if button:
@@ -120,6 +116,5 @@ if button:
         st.balloons()
         st.info("Enjoy your day! 😎")
 
-st.divider()
 st.write("Developed by Sujal Gupta ")
 st.write("[GitHub](https://github.com/gsujal421/Rainfall-Prediction-System)")
