@@ -74,9 +74,8 @@ except FileNotFoundError:
 
 try:
     CUSTOM_THRESHOLD = loadtxt('optimal_threshold.txt').item()
-except FileNotFoundError:
-    CUSTOM_THRESHOLD = 0.667 
-
+except Exception:
+    CUSTOM_THRESHOLD = 0.667
 
 st.title("Rainfall Prediction System 🌧")
 st.divider()

@@ -1,9 +1,8 @@
-numpy
-pandas
-matplotlib
-seaborn
-scikit-learn
-streamlit
-joblib
 streamlit==1.19.0
 altair==4.2.2
+numpy==1.23.5
+pandas==1.5.3
+scikit-learn==1.2.2
+joblib==1.3.2
+matplotlib==3.7.1
+seaborn==0.12.2
