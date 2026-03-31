@@ -2,68 +2,43 @@ import streamlit as st
 import joblib
 import numpy as np  
 from numpy import loadtxt
+import pandas as pd
+import base64
 
+
+@st.cache_data
+def load_data():
+    return pd.read_csv("delivery_data.csv")
+
+df = load_data()
+
+
+def get_base64(file):
+    with open(file, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+img_base64 = get_base64("background.png")  
 
 page_bg_img = f"""
-
 <style>
 [data-testid="stAppViewContainer"] {{
-    background-image: url("https://grist.org/wp-content/uploads/2022/07/GettyImages-592034559-1-e1658260204585.jpg");
+    background-image: url("data:image/png;base64,{img_base64}");
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Keeps the background from scrolling */
-    background-repeat: no-repeat;
-    /* FIX: Slightly darken the image for better text contrast */
-    filter: brightness(0.85);
+    background-attachment: fixed;
 }}
 
 [data-testid="stAppViewContainer"] > .main {{
-    background-color: rgba(255, 255, 255, 0.85); /* 85% transparent white overlay */
-    margin: 10px; 
+    background-color: rgba(240, 240, 240, 0.6);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}}
-
-[data-testid="stAppViewContainer"], h1, h2, h3, h4, .stMarkdown, .stText, label {{
-    color: black !important;
-}}
-
-.stButton>button {{
-    color: white !important;
-}}
-
-[data-testid="stAlert"] * {{
-    color: black !important;
-}}
-
-[data-testid="stAlert"][role="alert"] {{
-    background-color: #8B0000 !important; /* Dark Red (Maroon) */
-    border-color: #8B0000 !important;
-}}
-
-[data-testid="stAlert"][role="alert"] + [data-testid="stAlert"][role="alert"] {{
-    background-color: #FF8C00 !important; /* Dark Orange */
-    border-color: #FF8C00 !important;
-}}
-
-[data-testid="stAlert"][role="alert"] h3, 
-[data-testid="stAlert"][role="alert"] p, 
-[data-testid="stAlert"][role="alert"] * {{
-    color: white !important;
-}}
-
-[data-testid="stHeader"] {{
-    background: rgba(0,0,0,0);
-}}
-
-[data-testid="stSidebar"] {{
-    background: rgba(0,0,0,0);
 }}
 </style>
 """
 
 st.markdown(page_bg_img, unsafe_allow_html=True)
+
+st.title("Weather-Based Delivery Optimization System 🌧📦")
 
 try:
     scaler=joblib.load('scaler.pkl')
@@ -77,11 +52,33 @@ try:
 except Exception:
     CUSTOM_THRESHOLD = 0.667
 
-st.title("Rainfall Prediction System 🌧")
+def get_metrics(prob):
+    if prob > 0.7:
+        data = df[df["rain_prob"] > 0.7]
+    elif prob > 0.4:
+        data = df[(df["rain_prob"] > 0.4) & (df["rain_prob"] <= 0.7)]
+    else:
+        data = df[df["rain_prob"] <= 0.4]
+    
+    if len(data) == 0:
+        return {"orders": 0, "delivery_time": 0, "delay_pct": 0}
 
-st.subheader("Rainfall Prediction System Overview")
-st.write("This application provides a highly reliable forecast for the likelihood of rain tomorrow, " \
-"based on seven key meteorological inputs (Pressure, Humidity, Wind Speed, etc.).")
+    return {
+        "orders": int(data["orders"].mean()),
+        "delivery_time": int(data["delivery_time"].mean()),
+        "delay_pct": round(data["delay_pct"].mean()*100, 1)
+    }
+
+
+
+st.subheader("System Overview")
+
+st.write(
+    "This application predicts the probability of rainfall using key meteorological inputs "
+    "and translates it into actionable business insights for delivery operations. "
+    "By analyzing the impact of weather conditions on order demand, delivery time, and delays, "
+    "the system helps optimize logistics, improve efficiency, and support data-driven decision-making."
+)
 
 st.header("Input Weather Parameters")
 
@@ -102,12 +99,14 @@ with col2:
 
 
 
-button=st.button('Predict')
+button = st.button('Predict')
+
 if button:
     input_data = np.array([[pressure, dewpoint, humidity, cloud, sunshine, wind_direction, windspeed]])
     input_data_scaled = scaler.transform(input_data)
     probability_of_rain = model.predict_proba(input_data_scaled)[0][1]
-    
+
+    # 🔹 Prediction Result
     if probability_of_rain >= CUSTOM_THRESHOLD:
         st.error(f"🌧️ Prediction: It will rain tomorrow! (Probability: {probability_of_rain:.3f})")
         st.info("Carry an umbrella ☔")
@@ -116,5 +115,47 @@ if button:
         st.balloons()
         st.info("Enjoy your day! 😎")
 
+    # 🔹 Business Impact
+    st.subheader("📦 Delivery Impact Analysis")
+
+    if probability_of_rain > 0.7:
+        st.warning("⚠️ High Impact Expected")
+        st.write("• Orders likely to increase by 30–40%")
+        st.write("• Delivery time may increase significantly")
+        st.write("• High risk of delays and cancellations")
+
+    elif probability_of_rain > 0.4:
+        st.info("Moderate operational impact expected")
+        st.write("• Slight increase in demand")
+        st.write("• Minor delivery delays possible")
+
+    else:
+        st.success("Normal delivery conditions")
+        st.write("• Stable demand")
+        st.write("• Minimal delays expected")
+
+    # 🔹 Recommendations
+    st.subheader("🚀 Recommended Actions")
+    
+    if probability_of_rain > 0.7:
+        st.write("✔ Increase delivery fleet by 20–30%")
+        st.write("✔ Adjust estimated delivery times (ETA)")
+        st.write("✔ Pre-stock high demand items")
+    
+    elif probability_of_rain > 0.4:
+        st.write("✔ Monitor demand closely")
+        st.write("✔ Add delivery buffer time")
+    else:
+        st.write("✔ Maintain normal operations")
+    
+    # 🔹 Metrics (ALWAYS SHOWN)
+    st.subheader("📊 Expected Operational Metrics")
+    
+    metrics = get_metrics(probability_of_rain)
+    
+    st.write(f"• Avg Orders: {metrics['orders']}")
+    st.write(f"• Avg Delivery Time: {metrics['delivery_time']} mins")
+    st.write(f"• Delay Rate: {metrics['delay_pct']}%")
+    
 st.write("Developed by Sujal Gupta ")
 st.write("[GitHub](https://github.com/gsujal421/Rainfall-Prediction-System)")
