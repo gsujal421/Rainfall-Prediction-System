@@ -19,7 +19,7 @@ Predicts weather → estimates delivery impact → recommends actions
 ⚠️ Delay rate nearly 2x in heavy rain
 
 
-![alt text](image.png)
+![App Screenshot](images/image.png)
 
 
 ⚙️ What This System Does
