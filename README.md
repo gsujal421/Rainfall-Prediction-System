@@ -22,6 +22,7 @@ Key Business Impact
 ---
 
 System Workflow
+
 Weather Inputs → ML Model → Rain Probability → Impact Engine → Delivery Metrics → Recommendations
 
 ---
@@ -53,12 +54,15 @@ Built using data-driven simulation and aggregation
 ---
 
 Why This Matters
+
 Weather disruptions impact delivery efficiency and customer experience.
+
 This system enables proactive decision-making instead of reactive handling.
 
 ---
 
 Tech Stack
+
 Python, Scikit-learn, Pandas, NumPy, Streamlit, Matplotlib
 
 ---
@@ -70,30 +74,32 @@ How to Run
 
 ---
 
-Project Structure
+## 📂 Project Structure
+
+```bash
 Weather-Delivery-Optimization-System/
-│
-├── app.py # Streamlit application (UI + predictions + business insights)
-│
-├── data/ # Datasets
-│ ├── Rainfall.csv
-│ └── delivery_data.csv
-│
-├── models/ 
-│ ├── best_model_calibrated.pkl
-│ ├── scaler.pkl
-│ └── optimal_threshold.txt
-│
-├── notebooks/ 
-│ ├── weather_prediction_model_pipeline.ipynb
-│ └── delivery_impact_analysis.ipynb
-│
-├── images/ 
-│ ├── background.png
-│ └── image.png
-│
-├── requirements.txt 
-├── runtime.txt 
+├── app.py                     # Streamlit app (UI + predictions + insights)
+
+├── data/                      # Datasets
+│   ├── Rainfall.csv
+│   └── delivery_data.csv
+
+├── models/                    # Trained ML artifacts
+│   ├── best_model_calibrated.pkl
+│   ├── scaler.pkl
+│   └── optimal_threshold.txt
+
+├── notebooks/                 # Development & analysis
+│   ├── weather_prediction_model_pipeline.ipynb
+│   └── delivery_impact_analysis.ipynb
+
+├── images/                    # UI assets & screenshots
+│   ├── background.png
+│   └── image.png
+
+├── requirements.txt           # Dependencies
+├── runtime.txt                # Python version (deployment)
+├── Dockerfile                 # Containerization setup
 ├── .gitignore
 ├── LICENSE
 └── README.md
