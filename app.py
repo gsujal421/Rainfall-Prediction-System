@@ -8,8 +8,7 @@ import base64
 
 @st.cache_data
 def load_data():
-    return pd.read_csv("delivery_data.csv")
-
+    return pd.read_csv("data/delivery_data.csv")
 df = load_data()
 
 
@@ -17,7 +16,7 @@ def get_base64(file):
     with open(file, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-img_base64 = get_base64("background.png")  
+img_base64 = get_base64("images/background.png") 
 
 page_bg_img = f"""
 <style>
@@ -58,14 +57,14 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 st.title("Weather-Based Delivery Optimization System 🌧📦")
 
 try:
-    scaler=joblib.load('scaler.pkl')
-    model=joblib.load('best_model_calibrated.pkl')
+    scaler = joblib.load('models/scaler.pkl')
+    model = joblib.load('models/best_model_calibrated.pkl')
 except FileNotFoundError:
     st.error("Error: Model file 'best_model_calibrated.pkl' not found. Please ensure it is in the same directory.")
     st.stop()
 
 try:
-    CUSTOM_THRESHOLD = loadtxt('optimal_threshold.txt').item()
+    CUSTOM_THRESHOLD = loadtxt('models/optimal_threshold.txt')
 except Exception:
     CUSTOM_THRESHOLD = 0.667
 
@@ -119,8 +118,17 @@ with col2:
 button = st.button('Predict')
 
 if button:
-    input_data = np.array([[pressure, dewpoint, humidity, cloud, sunshine, wind_direction, windspeed]])
-    input_data_scaled = scaler.transform(input_data)
+    input_df = pd.DataFrame([{
+    "pressure": pressure,
+    "dewpoint": dewpoint,
+    "humidity": humidity,
+    "cloud": cloud,
+    "sunshine": sunshine,
+    "winddirection": wind_direction,
+    "windspeed": windspeed
+}])
+    input_df = input_df[scaler.feature_names_in_]
+    input_data_scaled = scaler.transform(input_df)
     probability_of_rain = model.predict_proba(input_data_scaled)[0][1]
 
     # 🔹 Prediction Result
