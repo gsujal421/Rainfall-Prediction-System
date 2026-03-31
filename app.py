@@ -21,18 +21,35 @@ img_base64 = get_base64("background.png")
 
 page_bg_img = f"""
 <style>
+
+/* Background Image (PURE — no filters) */
 [data-testid="stAppViewContainer"] {{
     background-image: url("data:image/png;base64,{img_base64}");
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     background-attachment: fixed;
 }}
 
+/* Main Content Container (light readable panel) */
 [data-testid="stAppViewContainer"] > .main {{
-    background-color: rgba(240, 240, 240, 0.6);
-    padding: 20px;
-    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.35);
+    padding: 25px;
+    border-radius: 12px;
+    margin: 15px;
 }}
+
+/* Text Styling (clean + readable) */
+h1, h2, h3, h4, h5, h6 {{
+    color: #111 !important;
+    font-weight: 600;
+}}
+
+p, label, div {{
+    color: #222 !important;
+    font-weight: 500;
+}}
+
 </style>
 """
 
