@@ -1,8 +1,9 @@
-🔗 **Live Demo:** https://weather-delivery-optimization-system.streamlit.app/
-
 # 🌧 Weather-Based Delivery Optimization System
 
+🔗 **Live Demo:** https://weather-delivery-optimization-system.streamlit.app/
+
 Developed a data-driven decision system to quantify how rainfall impacts delivery demand and delays, identifying 40% increase in demand and 75% rise in delays during high rainfall conditions.
+
 Analyzed 50,000+ weather and delivery records to quantify the impact of rainfall on logistics performance.
 
 ---
@@ -23,7 +24,7 @@ This project aims to analyze weather patterns and quantify their impact on deliv
 ## ⚙️ Solution Approach
 
 - Collected and processed weather and delivery datasets
-- Built and calibrated a Random Forest model to classify rainfall intensity and improve prediction reliability
+- Built and calibrated a Random Forest model with threshold tuning to improve prediction reliability and align outputs with business impact
 - Integrated delivery data to analyze operational impact
 - Identified correlations between rainfall, demand, and delivery delays
 - Applied threshold tuning to improve classification performance and align predictions with business impact
@@ -70,6 +71,11 @@ Weather Data → ML Prediction → Demand & Delay Analysis → Business Insights
   - Input weather conditions
   - View predicted rainfall impact
   - Analyze delivery performance metrics
+
+---
+## 📸 Application Preview
+
+![Dashboard](images/image.png)
  
 ---
 ## 🎯 Operational Recommendations
@@ -117,11 +123,6 @@ Weather-Delivery-Optimization-System/
 - Integrate real-time weather API
 - Deploy system on AWS for scalability
 - Automate end-to-end data pipeline
-
----
-## 📸 Application Preview
-
-![Dashboard](images/image.png)
 
 ---
 
